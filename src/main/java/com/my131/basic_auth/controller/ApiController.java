@@ -25,4 +25,26 @@ public class ApiController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/user/info")
+    public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("username", authentication.getName());
+        userInfo.put("authorities", authentication.getAuthorities());
+        userInfo.put("authenticated", authentication.isAuthenticated());
+        userInfo.put("authType", authentication.getClass().getSimpleName());
+
+        return ResponseEntity.ok(userInfo);
+    }
+
+    @GetMapping("/admin/stats")
+    public ResponseEntity<Map<String, Object>> getAdminStats(Authentication authentication) {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalUsers", 4);
+        stats.put("activeUsers", 1);
+        stats.put("adminUser", authentication.getName());
+        stats.put("serverTime", LocalDateTime.now());
+
+        return ResponseEntity.ok(stats);
+    }
 }
